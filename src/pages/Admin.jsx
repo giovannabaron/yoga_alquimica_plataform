@@ -25,6 +25,10 @@ export default function Admin() {
 
   const [salvando, setSalvando] = useState(false);
   const [mensagem, setMensagem] = useState("");
+  const [buscaEmail, setBuscaEmail] = useState("");
+  const [usuarioEncontrado, setUsuarioEncontrado] = useState(null);
+  const [buscandoUsuario, setBuscandoUsuario] = useState(false);
+  const [mensagemAssinatura, setMensagemAssinatura] = useState("");
 
   async function carregarAulas() {
     const { data } = await supabase
@@ -108,6 +112,70 @@ export default function Admin() {
       alert("Erro ao apagar: " + error.message);
     } else {
       await carregarAulas();
+    }
+  }
+
+  async function buscarUsuario(e) {
+    e.preventDefault();
+    setBuscandoUsuario(true);
+    setMensagemAssinatura("");
+    setUsuarioEncontrado(null);
+
+    const { data: perfil, error } = await supabase
+      .from("profiles")
+      .select("id, nome, email")
+      .ilike("email", buscaEmail.trim())
+      .maybeSingle();
+
+    if (error || !perfil) {
+      setMensagemAssinatura("Nenhum usuário encontrado com esse e-mail.");
+      setBuscandoUsuario(false);
+      return;
+    }
+
+    const { data: assinatura } = await supabase
+      .from("assinaturas")
+      .select("valida_ate")
+      .eq("user_id", perfil.id)
+      .maybeSingle();
+
+    setUsuarioEncontrado({ ...perfil, valida_ate: assinatura?.valida_ate ?? null });
+    setBuscandoUsuario(false);
+  }
+
+  async function estenderAssinatura(dias) {
+    const agora = new Date();
+    const baseAtual =
+      usuarioEncontrado.valida_ate && new Date(usuarioEncontrado.valida_ate) > agora
+        ? new Date(usuarioEncontrado.valida_ate)
+        : agora;
+
+    const novaData = new Date(baseAtual.getTime() + dias * 24 * 60 * 60 * 1000);
+
+    const { error } = await supabase
+      .from("assinaturas")
+      .upsert({ user_id: usuarioEncontrado.id, valida_ate: novaData.toISOString() });
+
+    if (error) {
+      setMensagemAssinatura("Erro ao atualizar: " + error.message);
+    } else {
+      setMensagemAssinatura(`Assinatura estendida até ${novaData.toLocaleDateString("pt-BR")}.`);
+      setUsuarioEncontrado({ ...usuarioEncontrado, valida_ate: novaData.toISOString() });
+    }
+  }
+
+  async function removerAssinatura() {
+    const confirmar = window.confirm("Remover o acesso desse usuário agora?");
+    if (!confirmar) return;
+
+    const { error } = await supabase
+      .from("assinaturas")
+      .update({ valida_ate: new Date().toISOString() })
+      .eq("user_id", usuarioEncontrado.id);
+
+    if (!error) {
+      setUsuarioEncontrado({ ...usuarioEncontrado, valida_ate: new Date().toISOString() });
+      setMensagemAssinatura("Acesso removido.");
     }
   }
 
@@ -236,6 +304,41 @@ export default function Admin() {
           </div>
         ))}
       </div>
+
+      <h2 style={{ marginTop: "3rem" }}>Gerenciar assinantes</h2>
+
+      <form onSubmit={buscarUsuario} style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
+        <input
+          type="email"
+          placeholder="E-mail do assinante"
+          value={buscaEmail}
+          onChange={(e) => setBuscaEmail(e.target.value)}
+          required
+          style={{ flex: 1 }}
+        />
+        <button type="submit" disabled={buscandoUsuario}>
+          {buscandoUsuario ? "Buscando..." : "Buscar"}
+        </button>
+      </form>
+
+      {mensagemAssinatura && <p role="status">{mensagemAssinatura}</p>}
+
+      {usuarioEncontrado && (
+        <div style={{ border: "1px solid #ccc", borderRadius: 8, padding: "1rem" }}>
+          <strong>{usuarioEncontrado.nome || "(sem nome)"}</strong>
+          <div>{usuarioEncontrado.email}</div>
+          <div style={{ margin: "0.5rem 0" }}>
+            {usuarioEncontrado.valida_ate && new Date(usuarioEncontrado.valida_ate) > new Date()
+              ? `Ativa até ${new Date(usuarioEncontrado.valida_ate).toLocaleDateString("pt-BR")}`
+              : "Sem assinatura ativa"}
+          </div>
+          <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+            <button onClick={() => estenderAssinatura(30)}>+30 dias</button>
+            <button onClick={() => estenderAssinatura(7)}>+7 dias</button>
+            <button onClick={removerAssinatura}>Remover acesso</button>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
