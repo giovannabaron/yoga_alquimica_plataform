@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap");
+
 :root {
   --text: #6b6375;
   --text-h: #08060d;
@@ -108,4 +110,43 @@ code {
   line-height: 135%;
   padding: 4px 8px;
   background: var(--code-bg);
+}
+
+:root {
+  color-scheme: dark;
+  color: #f3efe3;
+  background: #10251d;
+  --text: #c1c9bb;
+  --text-h: #f3efe3;
+  --bg: #10251d;
+  --border: #345143;
+  --code-bg: #1c3429;
+  --accent: #b66cff;
+  --accent-bg: rgba(182, 108, 255, 0.14);
+  --accent-border: rgba(182, 108, 255, 0.62);
+  --ink: #f3efe3;
+  --leaf: #e2c36c;
+  --coral: #b66cff;
+  --paper: #10251d;
+  --muted: #b9c4b8;
+  --line: #345143;
+  --surface: #1a3328;
+  font-family: "DM Sans", sans-serif;
+  letter-spacing: 0;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background: #10251d;
+}
+
+#root {
+  width: 100%;
+  max-width: none;
+  min-height: 100svh;
+  margin: 0;
+  border: 0;
+  text-align: left;
 }

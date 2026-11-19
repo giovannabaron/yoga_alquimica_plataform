@@ -4,6 +4,7 @@ import Aulas from "./pages/Aulas";
 import RedefinirSenha from "./pages/RedefinirSenha";
 import Admin from "./pages/Admin";
 import Home from "./pages/Home";
+import Assinar from "./pages/Assinar";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/entrar" element={<Entrar />} />
+        <Route path="/assinar/:plano" element={<Assinar />} />
         <Route path="/aulas" element={<Aulas />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/redefinir-senha" element={<RedefinirSenha />} />

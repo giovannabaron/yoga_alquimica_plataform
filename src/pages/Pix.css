@@ -1,0 +1,339 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap");
+
+.pix-page {
+  --pix-ink: #f3efe3;
+  --pix-leaf: #e2c36c;
+  --pix-coral: #b66cff;
+  --pix-paper: #10251d;
+  --pix-muted: #b9c4b8;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  color: var(--pix-ink);
+  background:
+    linear-gradient(110deg, rgba(52, 81, 67, 0.55), transparent 58%),
+    var(--pix-paper);
+  font-family: "DM Sans", sans-serif;
+  text-align: left;
+}
+
+.pix-page * {
+  box-sizing: border-box;
+}
+
+.pix-header {
+  min-height: 76px;
+  padding: 0 clamp(1.25rem, 6vw, 6rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 1px solid rgba(226, 195, 108, 0.22);
+}
+
+.pix-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--pix-ink);
+  font-family: "Manrope", sans-serif;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.pix-brand-mark {
+  width: 30px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--pix-leaf);
+  border-radius: 50%;
+  color: var(--pix-leaf);
+  font-family: Georgia, serif;
+}
+
+.pix-back {
+  color: var(--pix-ink);
+  font-size: 0.9rem;
+  text-underline-offset: 4px;
+}
+
+.pix-layout {
+  width: min(100% - 3rem, 1040px);
+  margin: auto;
+  padding: clamp(3rem, 8vh, 6rem) 0;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1fr);
+  align-items: center;
+  gap: clamp(2.5rem, 8vw, 7rem);
+}
+
+.pix-intro {
+  max-width: 430px;
+}
+
+.pix-eyebrow {
+  margin: 0 0 1rem;
+  color: var(--pix-coral);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.pix-intro h1 {
+  margin: 0;
+  color: var(--pix-ink);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(3.2rem, 6vw, 5rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: 0;
+}
+
+.pix-intro h1::after {
+  width: 44px;
+  height: 2px;
+  margin-top: 1rem;
+  display: block;
+  background: var(--pix-leaf);
+  content: "";
+}
+
+.pix-intro > p:not(.pix-eyebrow) {
+  max-width: 380px;
+  margin: 1.25rem 0 2rem;
+  color: var(--pix-muted);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.pix-plan-summary {
+  padding-left: 1rem;
+  display: grid;
+  gap: 0.2rem;
+  border-left: 2px solid var(--pix-coral);
+}
+
+.pix-plan-summary span {
+  font-size: 0.88rem;
+  color: var(--pix-muted);
+}
+
+.pix-plan-summary strong {
+  font-family: "Manrope", sans-serif;
+}
+
+.pix-workspace {
+  min-width: 0;
+  padding: clamp(1.4rem, 4vw, 2.5rem);
+  border: 1px solid #345143;
+  background: #1a3328;
+}
+
+.pix-start,
+.pix-payment,
+.pix-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.pix-start > p {
+  max-width: 330px;
+  margin-bottom: 1.5rem;
+  color: var(--pix-muted);
+  line-height: 1.55;
+}
+
+.pix-action {
+  min-height: 48px;
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem 1rem;
+  border: 0;
+  background: var(--pix-coral);
+  color: #1d1029;
+  font: 700 0.95rem "DM Sans", sans-serif;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 160ms ease;
+}
+
+.pix-action:hover:not(:disabled) {
+  background: #c583ff;
+  color: #1d1029;
+}
+
+.pix-action:focus-visible,
+.pix-refresh:focus-visible,
+.pix-back:focus-visible,
+.pix-brand:focus-visible {
+  outline: 3px solid var(--pix-leaf);
+  outline-offset: 3px;
+}
+
+.pix-action:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.pix-error,
+.pix-notice {
+  margin-top: 1rem;
+  color: #ff9a86;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.pix-notice {
+  color: var(--pix-leaf);
+}
+
+.pix-amount {
+  width: 100%;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.pix-amount span {
+  color: var(--pix-muted);
+  font-size: 0.9rem;
+}
+
+.pix-amount strong {
+  color: var(--pix-ink);
+  font-family: "Manrope", sans-serif;
+  font-size: 1.25rem;
+}
+
+.pix-qr {
+  width: min(100%, 240px);
+  aspect-ratio: 1;
+  object-fit: contain;
+  border: 1px solid #e2c36c;
+  background: #f8f6ef;
+}
+
+.pix-code-label {
+  width: 100%;
+  margin: 1.1rem 0 0.4rem;
+  color: var(--pix-ink);
+  font-size: 0.83rem;
+  font-weight: 700;
+  text-align: left;
+}
+
+.pix-code {
+  width: 100%;
+  resize: vertical;
+  padding: 0.7rem;
+  border: 1px solid #496754;
+  border-radius: 0;
+  color: var(--pix-ink);
+  background: #142a21;
+  font: 0.76rem/1.45 ui-monospace, Consolas, monospace;
+  overflow-wrap: anywhere;
+}
+
+.pix-payment .pix-action {
+  margin-top: 0.75rem;
+}
+
+.pix-wait {
+  margin-top: 1rem;
+  color: var(--pix-muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.pix-refresh {
+  margin-top: 0.75rem;
+  padding: 0.4rem;
+  border: 0;
+  color: var(--pix-leaf);
+  background: transparent;
+  font: 600 0.86rem "DM Sans", sans-serif;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.pix-status {
+  color: var(--pix-muted);
+  text-align: center;
+}
+
+.pix-success-mark {
+  width: 54px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--pix-leaf);
+  border-radius: 50%;
+  color: var(--pix-leaf);
+  font-size: 1.6rem;
+}
+
+.pix-success h2 {
+  margin: 1rem 0 0.5rem;
+  color: var(--pix-ink);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.5rem;
+}
+
+.pix-success p {
+  margin-bottom: 1.5rem;
+  color: var(--pix-muted);
+}
+
+.pix-footer {
+  padding: 1.5rem;
+  color: var(--pix-muted);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+@media (max-width: 720px) {
+  .pix-layout {
+    width: min(100% - 2rem, 520px);
+    padding: 2.5rem 0;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .pix-intro h1 {
+    font-size: 2.7rem;
+  }
+
+  .pix-intro > p:not(.pix-eyebrow) {
+    margin-bottom: 1.4rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .pix-header {
+    min-height: 66px;
+    padding: 0 1rem;
+  }
+
+  .pix-brand {
+    font-size: 0.86rem;
+  }
+
+  .pix-back {
+    font-size: 0.8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pix-action {
+    transition: none;
+  }
+}

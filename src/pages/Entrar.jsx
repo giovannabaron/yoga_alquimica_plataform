@@ -1,9 +1,13 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
+import SiteHeader from "../components/SiteHeader";
+import "./Portal.css";
 
 export default function Entrar() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const destino = location.state?.from ?? "/aulas";
   const [criarConta, setCriarConta] = useState(false);
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
@@ -27,9 +31,11 @@ export default function Entrar() {
       if (error) {
         setMensagem("Não foi possível criar a conta. Verifique os dados.");
       } else if (data.session) {
-        navigate("/aulas");
+        navigate(destino, { replace: true });
       } else {
-        setMensagem("Conta criada! Confira seu e-mail para confirmar o cadastro.");
+        setMensagem(
+          "Cadastro recebido. Confira seu e-mail, inclusive o spam, e clique no link de confirmação. Depois volte aqui e entre com seu e-mail e senha.",
+        );
       }
     } else {
       const { error } = await supabase.auth.signInWithPassword({
@@ -40,7 +46,7 @@ export default function Entrar() {
       if (error) {
         setMensagem("E-mail ou senha incorretos.");
       } else {
-        navigate("/aulas");
+        navigate(destino, { replace: true });
       }
     }
 
@@ -68,56 +74,62 @@ export default function Entrar() {
   }
 
   return (
-    <main style={{ maxWidth: 420, margin: "3rem auto", padding: "0 1rem" }}>
-      <h1>{criarConta ? "Criar conta" : "Entrar"}</h1>
+    <div className="portal-page">
+      <SiteHeader />
+      <main className="auth-main">
+        <section className="auth-panel">
+          <p className="portal-eyebrow">YOGA ALQUÍMICA</p>
+          <h1 className="portal-heading">{criarConta ? "Criar conta" : "Entrar"}</h1>
 
-      <form onSubmit={enviar}>
-        {criarConta && (
-          <div>
-            <label htmlFor="nome">Seu nome</label>
-            <input id="nome" value={nome} onChange={(e) => setNome(e.target.value)} />
-          </div>
-        )}
+          <form className="auth-form" onSubmit={enviar}>
+            {criarConta && (
+              <div>
+                <label htmlFor="nome">Seu nome</label>
+                <input id="nome" value={nome} onChange={(e) => setNome(e.target.value)} />
+              </div>
+            )}
 
-        <div>
-          <label htmlFor="email">E-mail</label>
-          <input
-            id="email"
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
+            <div>
+              <label htmlFor="email">E-mail</label>
+              <input
+                id="email"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
 
-        <div>
-          <label htmlFor="senha">Senha (mínimo 6 caracteres)</label>
-          <input
-            id="senha"
-            type="password"
-            required
-            minLength={6}
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-          />
-        </div>
+            <div>
+              <label htmlFor="senha">Senha (mínimo 6 caracteres)</label>
+              <input
+                id="senha"
+                type="password"
+                required
+                minLength={6}
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
+              />
+            </div>
 
-        <button type="submit" disabled={carregando}>
-          {carregando ? "Aguarde..." : criarConta ? "Criar conta" : "Entrar"}
-        </button>
+            <button className="portal-button" type="submit" disabled={carregando}>
+              {carregando ? "Aguarde..." : criarConta ? "Criar conta" : "Entrar"}
+            </button>
 
-        {!criarConta && (
-          <button type="button" onClick={esqueciSenha} disabled={enviandoReset}>
-            {enviandoReset ? "Enviando..." : "Esqueci minha senha"}
+            {!criarConta && (
+              <button className="auth-secondary" type="button" onClick={esqueciSenha} disabled={enviandoReset}>
+                {enviandoReset ? "Enviando..." : "Esqueci minha senha"}
+              </button>
+            )}
+
+            <p className="auth-message" role="status">{mensagem}</p>
+          </form>
+
+          <button className="auth-secondary" type="button" onClick={() => setCriarConta(!criarConta)}>
+            {criarConta ? "Já tenho conta" : "Ainda não tenho conta"}
           </button>
-        )}
-
-        <p role="status">{mensagem}</p>
-      </form>
-
-      <button type="button" onClick={() => setCriarConta(!criarConta)}>
-        {criarConta ? "Já tenho conta" : "Ainda não tenho conta"}
-      </button>
-    </main>
+        </section>
+      </main>
+    </div>
   );
 }

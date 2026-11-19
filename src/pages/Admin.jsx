@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
+import SiteHeader from "../components/SiteHeader";
+import "./Portal.css";
 
 const NIVEIS = [
   { valor: "todos", rotulo: "Todos os níveis" },
@@ -180,7 +182,12 @@ export default function Admin() {
   }
 
   if (verificando) {
-    return <p style={{ padding: "2rem" }}>Verificando acesso...</p>;
+    return (
+      <div className="portal-page">
+        <SiteHeader />
+        <p className="portal-loading">Verificando acesso...</p>
+      </div>
+    );
   }
 
   if (!ehAdmin) {
@@ -188,157 +195,123 @@ export default function Admin() {
   }
 
   return (
-    <main style={{ maxWidth: 520, margin: "2rem auto", padding: "0 1rem" }}>
-      <h1>Painel da professora</h1>
-      <h2>Cadastrar aula nova</h2>
+    <div className="portal-page">
+      <SiteHeader />
+      <main className="portal-main">
+        <header className="portal-title-row">
+          <div>
+            <p className="portal-eyebrow">ÁREA DE GESTÃO</p>
+            <h1 className="portal-heading">Painel da professora</h1>
+          </div>
+        </header>
 
-      <form onSubmit={cadastrarAula} style={{ display: "grid", gap: "1rem" }}>
-        <div>
-          <label htmlFor="titulo">Título</label>
-          <input
-            id="titulo"
-            required
-            value={titulo}
-            onChange={(e) => setTitulo(e.target.value)}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="descricao">Descrição</label>
-          <textarea
-            id="descricao"
-            value={descricao}
-            onChange={(e) => setDescricao(e.target.value)}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="videoUrl">Link do vídeo (YouTube)</label>
-          <input
-            id="videoUrl"
-            required
-            value={videoUrl}
-            onChange={(e) => setVideoUrl(e.target.value)}
-            placeholder="https://www.youtube.com/watch?v=..."
-          />
-        </div>
-
-        <div>
-          <label htmlFor="duracao">Duração (minutos)</label>
-          <input
-            id="duracao"
-            type="number"
-            value={duracaoMin}
-            onChange={(e) => setDuracaoMin(e.target.value)}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="nivel">Nível</label>
-          <select id="nivel" value={nivel} onChange={(e) => setNivel(e.target.value)}>
-            {NIVEIS.map((n) => (
-              <option key={n.valor} value={n.valor}>
-                {n.rotulo}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              checked={gratuita}
-              onChange={(e) => setGratuita(e.target.checked)}
-            />
-            {" "}Aula gratuita (não precisa de assinatura)
-          </label>
-        </div>
-
-        <div>
-          <label htmlFor="liberadaEm">Data de liberação</label>
-          <input
-            id="liberadaEm"
-            type="datetime-local"
-            value={liberadaEm}
-            onChange={(e) => setLiberadaEm(e.target.value)}
-          />
-          <small>Deixe em branco para liberar imediatamente.</small>
-        </div>
-
-        <button type="submit" disabled={salvando}>
-          {salvando ? "Salvando..." : "Cadastrar aula"}
-        </button>
-
-        <p role="status">{mensagem}</p>
-      </form>
-
-      <h2 style={{ marginTop: "3rem" }}>Aulas cadastradas ({aulas.length})</h2>
-
-      {aulas.length === 0 && <p>Nenhuma aula cadastrada ainda.</p>}
-
-      <div style={{ display: "grid", gap: "0.75rem" }}>
-        {aulas.map((aula) => (
-          <div
-            key={aula.id}
-            style={{
-              border: "1px solid #ccc",
-              borderRadius: 8,
-              padding: "0.75rem 1rem",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              gap: "1rem",
-            }}
-          >
-            <div>
-              <strong>{aula.titulo}</strong>
-              <div style={{ fontSize: "0.85rem", color: "#555" }}>
-                {new Date(aula.liberada_em).toLocaleDateString("pt-BR")}
-                {" · "}
-                {aula.nivel}
-                {aula.gratuita ? " · gratuita" : ""}
+        <div className="admin-layout">
+          <section className="admin-panel">
+            <h2>Cadastrar aula nova</h2>
+            <form className="admin-form" onSubmit={cadastrarAula}>
+              <div>
+                <label htmlFor="titulo">Título</label>
+                <input id="titulo" required value={titulo} onChange={(e) => setTitulo(e.target.value)} />
               </div>
+              <div>
+                <label htmlFor="descricao">Descrição</label>
+                <textarea id="descricao" value={descricao} onChange={(e) => setDescricao(e.target.value)} />
+              </div>
+              <div>
+                <label htmlFor="videoUrl">Link do vídeo (YouTube)</label>
+                <input
+                  id="videoUrl"
+                  required
+                  value={videoUrl}
+                  onChange={(e) => setVideoUrl(e.target.value)}
+                  placeholder="https://www.youtube.com/watch?v=..."
+                />
+              </div>
+              <div>
+                <label htmlFor="duracao">Duração (minutos)</label>
+                <input id="duracao" type="number" value={duracaoMin} onChange={(e) => setDuracaoMin(e.target.value)} />
+              </div>
+              <div>
+                <label htmlFor="nivel">Nível</label>
+                <select id="nivel" value={nivel} onChange={(e) => setNivel(e.target.value)}>
+                  {NIVEIS.map((n) => <option key={n.valor} value={n.valor}>{n.rotulo}</option>)}
+                </select>
+              </div>
+              <label className="admin-checkbox">
+                <input type="checkbox" checked={gratuita} onChange={(e) => setGratuita(e.target.checked)} />
+                Aula gratuita (não precisa de assinatura)
+              </label>
+              <div>
+                <label htmlFor="liberadaEm">Data de liberação</label>
+                <input
+                  id="liberadaEm"
+                  type="datetime-local"
+                  value={liberadaEm}
+                  onChange={(e) => setLiberadaEm(e.target.value)}
+                />
+                <small>Deixe em branco para liberar imediatamente.</small>
+              </div>
+              <button className="portal-button" type="submit" disabled={salvando}>
+                {salvando ? "Salvando..." : "Cadastrar aula"}
+              </button>
+              <p className="admin-message" role="status">{mensagem}</p>
+            </form>
+          </section>
+
+          <section className="admin-panel">
+            <h2>Aulas cadastradas ({aulas.length})</h2>
+            {aulas.length === 0 && <p>Nenhuma aula cadastrada ainda.</p>}
+            <div className="admin-list">
+              {aulas.map((aula) => (
+                <div key={aula.id} className="admin-list-row">
+                  <div>
+                    <strong>{aula.titulo}</strong>
+                    <p>
+                      {new Date(aula.liberada_em).toLocaleDateString("pt-BR")}
+                      {" · "}{aula.nivel}{aula.gratuita ? " · gratuita" : ""}
+                    </p>
+                  </div>
+                  <button type="button" onClick={() => apagarAula(aula.id, aula.titulo)}>Apagar</button>
+                </div>
+              ))}
             </div>
-            <button onClick={() => apagarAula(aula.id, aula.titulo)}>Apagar</button>
-          </div>
-        ))}
-      </div>
+          </section>
 
-      <h2 style={{ marginTop: "3rem" }}>Gerenciar assinantes</h2>
-
-      <form onSubmit={buscarUsuario} style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
-        <input
-          type="email"
-          placeholder="E-mail do assinante"
-          value={buscaEmail}
-          onChange={(e) => setBuscaEmail(e.target.value)}
-          required
-          style={{ flex: 1 }}
-        />
-        <button type="submit" disabled={buscandoUsuario}>
-          {buscandoUsuario ? "Buscando..." : "Buscar"}
-        </button>
-      </form>
-
-      {mensagemAssinatura && <p role="status">{mensagemAssinatura}</p>}
-
-      {usuarioEncontrado && (
-        <div style={{ border: "1px solid #ccc", borderRadius: 8, padding: "1rem" }}>
-          <strong>{usuarioEncontrado.nome || "(sem nome)"}</strong>
-          <div>{usuarioEncontrado.email}</div>
-          <div style={{ margin: "0.5rem 0" }}>
-            {usuarioEncontrado.valida_ate && new Date(usuarioEncontrado.valida_ate) > new Date()
-              ? `Ativa até ${new Date(usuarioEncontrado.valida_ate).toLocaleDateString("pt-BR")}`
-              : "Sem assinatura ativa"}
-          </div>
-          <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-            <button onClick={() => estenderAssinatura(30)}>+30 dias</button>
-            <button onClick={() => estenderAssinatura(7)}>+7 dias</button>
-            <button onClick={removerAssinatura}>Remover acesso</button>
-          </div>
+          <section className="admin-panel admin-panel-wide">
+            <h2>Gerenciar assinantes</h2>
+            <form className="admin-search" onSubmit={buscarUsuario}>
+              <input
+                aria-label="E-mail do assinante"
+                type="email"
+                placeholder="E-mail do assinante"
+                value={buscaEmail}
+                onChange={(e) => setBuscaEmail(e.target.value)}
+                required
+              />
+              <button className="portal-button" type="submit" disabled={buscandoUsuario}>
+                {buscandoUsuario ? "Buscando..." : "Buscar"}
+              </button>
+            </form>
+            {mensagemAssinatura && <p className="admin-message" role="status">{mensagemAssinatura}</p>}
+            {usuarioEncontrado && (
+              <div className="admin-result">
+                <strong>{usuarioEncontrado.nome || "(sem nome)"}</strong>
+                <p>{usuarioEncontrado.email}</p>
+                <p>
+                  {usuarioEncontrado.valida_ate && new Date(usuarioEncontrado.valida_ate) > new Date()
+                    ? `Ativa até ${new Date(usuarioEncontrado.valida_ate).toLocaleDateString("pt-BR")}`
+                    : "Sem assinatura ativa"}
+                </p>
+                <div className="admin-result-actions">
+                  <button type="button" onClick={() => estenderAssinatura(30)}>+30 dias</button>
+                  <button type="button" onClick={() => estenderAssinatura(7)}>+7 dias</button>
+                  <button type="button" onClick={removerAssinatura}>Remover acesso</button>
+                </div>
+              </div>
+            )}
+          </section>
         </div>
-      )}
-    </main>
+      </main>
+    </div>
   );
 }

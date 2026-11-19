@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
+import SiteHeader from "../components/SiteHeader";
+import "./Portal.css";
 
 const NIVEIS = [
   { valor: "todos", rotulo: "Todos os níveis" },
@@ -52,11 +54,6 @@ export default function Aulas() {
     carregar();
   }, [navigate]);
 
-  async function sair() {
-    await supabase.auth.signOut();
-    navigate("/entrar");
-  }
-
   function idDoYoutube(url) {
     const m = url.match(/(?:youtu\.be\/|v=|embed\/)([\w-]{11})/);
     return m ? m[1] : null;
@@ -65,26 +62,43 @@ export default function Aulas() {
   const aulasFiltradas = aulas.filter(
     (a) => filtroNivel === "todos" || a.nivel === filtroNivel || a.nivel === "todos"
   );
+  const aulasDisponiveis = assinaturaAtiva
+    ? aulasFiltradas
+    : aulasFiltradas.filter((aula) => aula.gratuita);
 
   if (carregando) {
-    return <p style={{ padding: "2rem" }}>Carregando...</p>;
+    return (
+      <div className="portal-page">
+        <SiteHeader />
+        <p className="portal-loading">Carregando suas aulas...</p>
+      </div>
+    );
   }
 
   return (
-    <main style={{ maxWidth: 720, margin: "2rem auto", padding: "0 1rem" }}>
-      <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <h1>Suas aulas</h1>
-        <button onClick={sair}>Sair</button>
-      </header>
+    <div className="portal-page">
+      <SiteHeader />
+      <main className="portal-main">
+        <header className="portal-title-row">
+          <div>
+            <p className="portal-eyebrow">PRÁTICA E MOVIMENTO</p>
+            <h1 className="portal-heading">Sua área</h1>
+          </div>
+        </header>
 
-      <div style={{ background: "#eee", padding: "1rem", borderRadius: 8, margin: "1rem 0" }}>
+      <div className="portal-status">
         {assinaturaAtiva
           ? `Assinatura ativa até ${new Date(validaAte).toLocaleDateString("pt-BR")}.`
-          : "Sua assinatura não está ativa. Você vê só as aulas gratuitas."}
+          : (
+            <>
+              <p>Sua assinatura não está ativa. Assine para liberar todas as aulas.</p>
+              <Link className="portal-status-link" to="/#plans-title">Ver planos e assinar</Link>
+            </>
+          )}
       </div>
 
-      <div style={{ marginBottom: "1rem" }}>
-        <label htmlFor="filtro-nivel" style={{ fontWeight: "bold", marginRight: "0.5rem" }}>
+      <div className="portal-toolbar">
+        <label htmlFor="filtro-nivel">
           Nível:
         </label>
         <select
@@ -100,41 +114,42 @@ export default function Aulas() {
         </select>
       </div>
 
-      {aulasFiltradas.length === 0 && (
+      {aulasDisponiveis.length === 0 && (
         <p>Nenhuma aula encontrada para esse nível ainda.</p>
       )}
 
-      <div style={{ display: "grid", gap: "1rem" }}>
-        {aulasFiltradas.map((aula) => {
+      <div className="lesson-list">
+        {aulasDisponiveis.map((aula) => {
           const ytId = idDoYoutube(aula.video_url);
           const abertaAgora = aulaAberta === aula.id;
 
           return (
-            <article key={aula.id} style={{ border: "1px solid #ccc", borderRadius: 8, padding: "1rem" }}>
-              <div style={{ fontWeight: "bold", color: "#0f4c4a", fontSize: "0.9rem" }}>
+            <article key={aula.id} className="lesson-card">
+              <div className="lesson-meta">
                 {new Date(aula.liberada_em).toLocaleDateString("pt-BR")}
                 {aula.duracao_min ? ` · ${aula.duracao_min} min` : ""}
                 {aula.gratuita ? " · gratuita" : ""}
                 {aula.nivel && aula.nivel !== "todos" ? ` · ${aula.nivel}` : ""}
               </div>
-              <h3>{aula.titulo}</h3>
+              <h2>{aula.titulo}</h2>
               <p>{aula.descricao}</p>
 
               {abertaAgora && ytId ? (
                 <iframe
                   title={aula.titulo}
                   src={`https://www.youtube-nocookie.com/embed/${ytId}`}
-                  style={{ width: "100%", aspectRatio: "16/9", border: 0, borderRadius: 8 }}
+                  className="lesson-video"
                   allow="fullscreen"
                   allowFullScreen
                 />
               ) : (
-                <button onClick={() => setAulaAberta(aula.id)}>Assistir</button>
+                <button className="portal-button" onClick={() => setAulaAberta(aula.id)}>Assistir</button>
               )}
             </article>
           );
         })}
       </div>
-    </main>
+      </main>
+    </div>
   );
 }

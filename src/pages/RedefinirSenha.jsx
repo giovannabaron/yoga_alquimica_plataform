@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
+import SiteHeader from "../components/SiteHeader";
+import "./Portal.css";
 
 export default function RedefinirSenha() {
   const navigate = useNavigate();
@@ -26,28 +28,34 @@ export default function RedefinirSenha() {
   }
 
   return (
-    <main style={{ maxWidth: 420, margin: "3rem auto", padding: "0 1rem" }}>
-      <h1>Criar nova senha</h1>
+    <div className="portal-page">
+      <SiteHeader />
+      <main className="auth-main">
+        <section className="auth-panel">
+          <p className="portal-eyebrow">YOGA ALQUÍMICA</p>
+          <h1 className="portal-heading">Criar nova senha</h1>
 
-      <form onSubmit={salvar}>
-        <div>
-          <label htmlFor="senha">Nova senha (mínimo 6 caracteres)</label>
-          <input
-            id="senha"
-            type="password"
-            required
-            minLength={6}
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-          />
-        </div>
+          <form className="auth-form" onSubmit={salvar}>
+            <div>
+              <label htmlFor="senha">Nova senha (mínimo 6 caracteres)</label>
+              <input
+                id="senha"
+                type="password"
+                required
+                minLength={6}
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
+              />
+            </div>
 
-        <button type="submit" disabled={carregando}>
-          {carregando ? "Salvando..." : "Salvar nova senha"}
-        </button>
+            <button className="portal-button" type="submit" disabled={carregando}>
+              {carregando ? "Salvando..." : "Salvar nova senha"}
+            </button>
 
-        <p role="status">{mensagem}</p>
-      </form>
-    </main>
+            <p className="auth-message" role="status">{mensagem}</p>
+          </form>
+        </section>
+      </main>
+    </div>
   );
 }

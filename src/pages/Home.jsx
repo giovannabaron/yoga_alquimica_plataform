@@ -1,18 +1,21 @@
 import { Link } from "react-router-dom";
+import SiteHeader from "../components/SiteHeader";
 import "./Home.css";
 
 const planos = [
   {
+    id: "mensal",
     nome: "Mensal",
     preco: "R$ 36,90",
-    periodo: "/mês",
-    descricao: "Renovação mensal, cancele quando quiser.",
+    periodo: "/ 30 dias",
+    descricao: "Acesso por 30 dias. Renove quando quiser.",
   },
   {
+    id: "anual",
     nome: "Anual",
     preco: "R$ 369,00",
-    periodo: "/ano",
-    descricao: "Equivale a R$ 30,75/mês",
+    periodo: "/ 365 dias",
+    descricao: "Equivale a R$ 30,75 por mês.",
     economia: true,
   },
 ];
@@ -20,13 +23,7 @@ const planos = [
 export default function Home() {
   return (
     <main className="home-shell">
-      <header className="home-header">
-        <Link className="home-brand" to="/" aria-label="Yoga Alquímica, início">
-          <span className="brand-mark" aria-hidden="true">Y</span>
-          <span>Yoga Alquímica</span>
-        </Link>
-        <Link className="header-login" to="/entrar">Entrar</Link>
-      </header>
+      <SiteHeader />
 
       <section className="home-hero" aria-labelledby="home-title">
         <img
@@ -80,7 +77,7 @@ export default function Home() {
               </p>
               <p className="plan-description">{plano.descricao}</p>
               {plano.economia && <p className="plan-strike"><s>R$ 442,80</s> no ano</p>}
-              <Link className="plan-link" to="/entrar">
+              <Link className="plan-link" to={`/assinar/${plano.id}`}>
                 Assinar <span aria-hidden="true">↗</span>
               </Link>
             </article>

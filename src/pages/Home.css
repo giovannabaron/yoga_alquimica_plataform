@@ -1,11 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap");
 
 .home-shell {
-  --home-ink: #173c35;
-  --home-leaf: #406b52;
-  --home-coral: #d66b50;
-  --home-paper: #f5f4ed;
-  --home-muted: #66746b;
+  --home-ink: #f3efe3;
+  --home-leaf: #e2c36c;
+  --home-coral: #b66cff;
+  --home-paper: #10251d;
+  --home-muted: #b9c4b8;
   width: 100%;
   color: var(--home-ink);
   background: var(--home-paper);
@@ -65,7 +65,7 @@
   display: flex;
   align-items: center;
   color: #fff;
-  background: #294239;
+  background: #24372d;
 }
 
 .hero-image,
@@ -82,7 +82,7 @@
 }
 
 .hero-shade {
-  background: linear-gradient(90deg, rgba(16, 40, 33, 0.83), rgba(16, 40, 33, 0.35) 58%, rgba(16, 40, 33, 0.08));
+  background: linear-gradient(90deg, rgba(8, 19, 15, 0.88), rgba(8, 19, 15, 0.48) 58%, rgba(8, 19, 15, 0.12));
 }
 
 .hero-content {
@@ -101,17 +101,26 @@
 }
 
 .hero-content .eyebrow {
-  color: #e8c99a;
+  color: #e2c36c;
 }
 
 .hero-content h1 {
   margin: 1.25rem 0 1rem;
   color: #fff;
-  font-family: "Manrope", sans-serif;
-  font-size: clamp(3.5rem, 8vw, 6.3rem);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(4.5rem, 9vw, 7.3rem);
   font-weight: 500;
-  line-height: 0.98;
+  line-height: 0.8;
   letter-spacing: 0;
+}
+
+.hero-content h1::after {
+  width: 58px;
+  height: 2px;
+  margin-top: 1.4rem;
+  display: block;
+  background: #e2c36c;
+  content: "";
 }
 
 .hero-copy {
@@ -131,7 +140,7 @@
   gap: 1.4rem;
   padding: 0.8rem 1.25rem;
   background: var(--home-coral);
-  color: #fff;
+  color: #1d1029;
   font-size: 0.95rem;
   font-weight: 700;
   text-decoration: none;
@@ -140,7 +149,7 @@
 
 .primary-link:hover,
 .plan-link:hover {
-  background: #b95740;
+  background: #c583ff;
   transform: translateY(-2px);
 }
 
@@ -148,7 +157,7 @@
 .plan-link:focus-visible,
 .header-login:focus-visible,
 .home-brand:focus-visible {
-  outline: 3px solid #e8c99a;
+  outline: 3px solid #e2c36c;
   outline-offset: 4px;
 }
 
@@ -173,7 +182,7 @@
 }
 
 .section-eyebrow {
-  color: var(--home-coral);
+  color: var(--home-leaf);
 }
 
 .about-grid {
@@ -188,8 +197,8 @@
 .plans-heading h2 {
   margin: 0;
   color: var(--home-ink);
-  font-family: "Manrope", sans-serif;
-  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(2.8rem, 4.5vw, 4rem);
   font-weight: 500;
   line-height: 1.12;
   letter-spacing: 0;
@@ -199,14 +208,14 @@
   margin: 0;
   padding-left: 1.25rem;
   border-left: 2px solid var(--home-coral);
-  color: var(--home-leaf);
+  color: #d8d0b8;
   font-family: Georgia, serif;
   font-size: clamp(1.1rem, 2vw, 1.4rem);
   line-height: 1.65;
 }
 
 .plans-section {
-  background: #e7ece3;
+  background: #142c22;
 }
 
 .plans-heading {
@@ -237,12 +246,22 @@
   position: relative;
   min-width: 0;
   padding: clamp(1.4rem, 3vw, 2.25rem);
-  border: 1px solid #c8d2c7;
-  background: var(--home-paper);
+  border: 1px solid #345143;
+  background: #1a3328;
 }
 
 .plan-featured {
-  border: 2px solid var(--home-leaf);
+  border: 2px solid #b66cff;
+}
+
+.plan-featured::before {
+  position: absolute;
+  top: -2px;
+  left: 1.5rem;
+  width: 48px;
+  height: 3px;
+  background: #e2c36c;
+  content: "";
 }
 
 .saving-label {
@@ -251,7 +270,7 @@
   right: 1.5rem;
   padding: 0.3rem 0.7rem;
   background: var(--home-leaf);
-  color: #fff;
+  color: #142018;
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -260,8 +279,8 @@
 .plan-item h3 {
   margin: 0 0 1.15rem;
   color: var(--home-ink);
-  font-family: "Manrope", sans-serif;
-  font-size: 1.2rem;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.65rem;
 }
 
 .plan-price {
@@ -316,6 +335,15 @@
   font-size: 0.88rem;
 }
 
+.plans-heading h2::after {
+  width: 42px;
+  height: 2px;
+  margin-top: 0.65rem;
+  display: block;
+  background: var(--home-leaf);
+  content: "";
+}
+
 @media (max-width: 640px) {
   .home-header {
     height: 66px;
@@ -331,7 +359,7 @@
   }
 
   .hero-shade {
-    background: linear-gradient(90deg, rgba(16, 40, 33, 0.78), rgba(16, 40, 33, 0.35));
+    background: linear-gradient(90deg, rgba(8, 19, 15, 0.86), rgba(8, 19, 15, 0.42));
   }
 
   .hero-content {
@@ -339,7 +367,8 @@
   }
 
   .hero-content h1 {
-    font-size: clamp(3.4rem, 16vw, 5rem);
+    font-size: 4.6rem;
+    line-height: 0.82;
   }
 
   .hero-caption {
