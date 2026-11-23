@@ -334,6 +334,104 @@
   outline-offset: 3px;
 }
 
+.portal-status-text {
+  min-width: 0;
+  display: grid;
+  gap: 0.2rem;
+}
+
+.portal-status-text strong {
+  color: var(--ink);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.15rem;
+}
+
+.portal-status-text span {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.portal-days {
+  min-width: 92px;
+  display: grid;
+  flex: 0 0 auto;
+  justify-items: center;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid rgba(226, 195, 108, 0.42);
+  background: rgba(226, 195, 108, 0.08);
+  text-align: center;
+}
+
+.portal-days strong {
+  color: var(--leaf);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.9rem;
+  line-height: 1;
+}
+
+.portal-days span {
+  color: var(--ink);
+  font-size: 0.68rem;
+  white-space: nowrap;
+}
+
+.portal-status-cta strong {
+  color: var(--leaf);
+  font-size: 1.35rem;
+}
+
+.portal-subscription-hero {
+  max-width: 760px;
+  margin: clamp(2rem, 7vw, 5rem) auto 0;
+  padding: clamp(2rem, 6vw, 4.5rem);
+  border: 1px solid rgba(226, 195, 108, 0.32);
+  background:
+    radial-gradient(circle at 100% 0, rgba(182, 108, 255, 0.18), transparent 42%),
+    #1a3328;
+  text-align: center;
+}
+
+.portal-subscription-mark {
+  width: 86px;
+  height: 86px;
+  margin: 0 auto 1.35rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--leaf);
+  border-radius: 50%;
+  color: var(--leaf);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 2.4rem;
+}
+
+.portal-subscription-hero h2 {
+  margin: 0.35rem 0 0.8rem;
+  color: var(--ink);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(2.2rem, 6vw, 3.7rem);
+}
+
+.portal-subscription-hero > p:not(.portal-eyebrow) {
+  max-width: 560px;
+  margin: 0 auto;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.portal-subscription-actions {
+  margin-top: 1.8rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.portal-status-link-secondary {
+  border: 1px solid var(--coral);
+  background: transparent;
+  color: var(--coral);
+}
+
 @media (max-width: 760px) {
   .portal-main {
     width: min(100% - 2rem, 1080px);
@@ -352,6 +450,21 @@
   .portal-title-row {
     align-items: flex-start;
     flex-direction: column;
+  }
+}
+
+@media (max-width: 640px) {
+  .portal-status {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .portal-days {
+    order: -1;
+  }
+
+  .portal-status-link {
+    width: 100%;
   }
 }
 

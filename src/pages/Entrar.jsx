@@ -10,6 +10,7 @@ export default function Entrar() {
   const destino = location.state?.from ?? "/aulas";
   const [criarConta, setCriarConta] = useState(false);
   const [nome, setNome] = useState("");
+  const [sobrenome, setSobrenome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [mensagem, setMensagem] = useState("");
@@ -22,10 +23,26 @@ export default function Entrar() {
     setMensagem("");
 
     if (criarConta) {
+      const nomeLimpo = nome.trim();
+      const sobrenomeLimpo = sobrenome.trim();
+
+      if (!nomeLimpo || !sobrenomeLimpo) {
+        setMensagem("Informe seu nome e sobrenome para criar a conta.");
+        setCarregando(false);
+        return;
+      }
+
+      const nomeCompleto = `${nomeLimpo} ${sobrenomeLimpo}`;
       const { data, error } = await supabase.auth.signUp({
-        email,
+        email: email.trim(),
         password: senha,
-        options: { data: { nome } },
+        options: {
+          data: {
+            nome: nomeLimpo,
+            sobrenome: sobrenomeLimpo,
+            nome_completo: nomeCompleto,
+          },
+        },
       });
 
       if (error) {
@@ -39,7 +56,7 @@ export default function Entrar() {
       }
     } else {
       const { error } = await supabase.auth.signInWithPassword({
-        email,
+        email: email.trim(),
         password: senha,
       });
 
@@ -61,7 +78,7 @@ export default function Entrar() {
     setEnviandoReset(true);
     setMensagem("");
 
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
       redirectTo: `${window.location.origin}/redefinir-senha`,
     });
 
@@ -83,10 +100,30 @@ export default function Entrar() {
 
           <form className="auth-form" onSubmit={enviar}>
             {criarConta && (
-              <div>
-                <label htmlFor="nome">Seu nome</label>
-                <input id="nome" value={nome} onChange={(e) => setNome(e.target.value)} />
-              </div>
+              <>
+                <div>
+                  <label htmlFor="nome">Seu nome</label>
+                  <input
+                    id="nome"
+                    required
+                    minLength={2}
+                    value={nome}
+                    onChange={(e) => setNome(e.target.value)}
+                    placeholder="Como deseja ser chamada?"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="sobrenome">Seu sobrenome</label>
+                  <input
+                    id="sobrenome"
+                    required
+                    minLength={2}
+                    value={sobrenome}
+                    onChange={(e) => setSobrenome(e.target.value)}
+                    placeholder="Seu sobrenome"
+                  />
+                </div>
+              </>
             )}
 
             <div>
