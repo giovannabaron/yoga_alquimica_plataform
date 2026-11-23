@@ -1,6 +1,6 @@
 create table if not exists public.progresso_aulas (
   user_id uuid not null references auth.users (id) on delete cascade,
-  aula_id bigint not null references public.aulas (id) on delete cascade,
+  aula_id uuid not null references public.aulas (id) on delete cascade,
   concluida_em timestamptz,
   segundos_assistidos integer not null default 0,
   ultimo_visto_em timestamptz,
