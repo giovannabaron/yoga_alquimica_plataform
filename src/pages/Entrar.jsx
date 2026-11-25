@@ -95,7 +95,7 @@ export default function Entrar() {
       <SiteHeader />
       <main className="auth-main">
         <section className="auth-panel">
-          <p className="portal-eyebrow">YOGA ALQUÍMICA</p>
+          <p className="portal-eyebrow">YÔGA ALQUÍMICA</p>
           <h1 className="portal-heading">{criarConta ? "Criar conta" : "Entrar"}</h1>
 
           <form className="auth-form" onSubmit={enviar}>

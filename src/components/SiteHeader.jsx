@@ -89,8 +89,8 @@ export default function SiteHeader() {
   return (
     <header className="site-header">
       <div className="site-header-inner">
-        <Link className="site-brand" to="/" aria-label="Yoga Alquímica, início">
-          <img src={logo} alt="Yoga Alquímica" className="site-logo" />
+        <Link className="site-brand" to="/" aria-label="Yôga Alquímica, início">
+          <img src={logo} alt="Yôga Alquímica" className="site-logo" />
         </Link>
         <nav className="site-nav" aria-label="Navegação principal">
           <Link className="site-nav-link" to="/#plans-title">Planos</Link>

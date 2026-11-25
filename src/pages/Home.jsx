@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import SiteHeader from "../components/SiteHeader";
+import logo from "../assets/logo1.png";
 import "./Home.css";
 
 const planos = [
@@ -29,18 +30,18 @@ export default function Home() {
 				<img
 					className="hero-image"
 					src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=2200&q=85"
-					alt="Prática de yoga ao ar livre"
+					alt="Prática de Yôga ao ar livre"
 				/>
 				<div className="hero-shade" />
 				<div className="hero-content">
 					<p className="eyebrow">PRÁTICA, PRESENÇA, TRANSFORMAÇÃO</p>
 					<h1 id="home-title">
-						Yoga
+						Yôga
 						<br />
 						Alquímica
 					</h1>
 					<p className="hero-copy">
-						Aulas de yoga gravadas, liberadas toda semana, para praticar no seu
+						Aulas de Yôga gravadas, liberadas toda semana, para praticar no seu
 						ritmo.
 					</p>
 					<Link className="primary-link" to="/entrar">
@@ -58,7 +59,7 @@ export default function Home() {
 						chegar a todos.
 					</h2>
 					<blockquote>
-						“O acesso a uma prática de yoga com técnica de qualidade ainda é muito
+						“O acesso a uma prática de Yôga com técnica de qualidade ainda é muito
 						elitizado. Penso que é muito importante que esse movimento chegue em
 						todos.”
 					</blockquote>
@@ -107,11 +108,7 @@ export default function Home() {
 			</section>
 
 			<footer className="home-footer">
-				<img
-					className="home-footer-logo"
-					src="/src/assets/logo1.png"
-					alt="Yoga Alquímica"
-				/>
+				<img className="home-footer-logo" src={logo} alt="Yôga Alquímica" />
 				<a
 					className="home-footer-social"
 					href="https://www.instagram.com/yoga.alquimica"
