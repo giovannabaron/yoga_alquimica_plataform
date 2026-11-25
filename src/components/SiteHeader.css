@@ -2,8 +2,8 @@
   position: relative;
   z-index: 5;
   width: 100%;
-  border-bottom: 1px solid rgba(226, 195, 108, 0.22);
-  background: var(--paper, #10251d);
+  border-bottom: 1px solid rgba(74, 31, 99, 0.12);
+  background: #f6f3e9;
 }
 
 .site-header-inner {
@@ -20,7 +20,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.65rem;
-  color: var(--ink, #f3efe3);
+  color: #4a1f63;
   font-family: "Manrope", sans-serif;
   font-size: 0.98rem;
   font-weight: 700;
@@ -52,7 +52,7 @@
 .site-nav-button {
   padding: 0.55rem 0;
   border: 0;
-  color: var(--ink, #f3efe3);
+  color: #4a1f63;
   background: transparent;
   font: 600 0.9rem "DM Sans", sans-serif;
   text-decoration: none;
@@ -61,7 +61,7 @@
 
 .site-nav-link:hover,
 .site-nav-button:hover {
-  color: var(--leaf, #e2c36c);
+  color: #9a711e;
 }
 
 .site-nav-login {
@@ -89,7 +89,7 @@
   padding: 0;
   border: 1px solid rgba(226, 195, 108, 0.32);
   border-radius: 50%;
-  color: #f3efe3;
+  color: #4a1f63;
   background: #090b0a;
   cursor: pointer;
   box-shadow: 0 5px 18px rgba(0, 0, 0, 0.24);
@@ -101,10 +101,8 @@
 
 .site-user:hover,
 .site-user[aria-expanded="true"] {
-  border-color: var(--leaf, #e2c36c);
-  background: #090b0a;
-  box-shadow: 0 7px 22px rgba(0, 0, 0, 0.34);
-  transform: translateY(-1px);
+  border-color: rgba(74, 31, 99, 0.16);
+  background: rgba(74, 31, 99, 0.07);
 }
 
 .site-user-avatar {
@@ -144,8 +142,8 @@
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: var(--leaf, #e2c36c);
-  color: #10251d;
+  background: #4a1f63;
+  color: #f3efe3;
   font: 800 1rem "DM Sans", sans-serif;
 }
 
@@ -205,8 +203,8 @@
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: var(--leaf, #e2c36c);
-  color: #10251d;
+  background: #4a1f63;
+  color: #f3efe3;
   font: 800 1rem "DM Sans", sans-serif;
 }
 
@@ -282,6 +280,14 @@
   color: #efc2c2;
 }
 
+.site-logo {
+  width: clamp(210px, 27vw, 320px);
+  height: 66px;
+  display: block;
+  object-fit: contain;
+  object-position: left center;
+}
+
 @media (max-width: 640px) {
   .site-header-inner {
     width: min(100% - 2rem, 1160px);
@@ -317,5 +323,10 @@
 
   .site-user-name {
     max-width: 180px;
+  }
+
+  .site-logo {
+    width: min(245px, 76vw);
+    height: 54px;
   }
 }

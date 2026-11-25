@@ -324,7 +324,7 @@
   min-height: 94px;
   padding: 1.5rem clamp(1.5rem, 8vw, 7rem);
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   gap: 1rem;
   color: var(--home-muted);
@@ -333,6 +333,24 @@
 
 .footer-brand {
   font-size: 0.88rem;
+}
+
+.home-footer-social {
+  color: var(--home-muted);
+  font-size: 0.82rem;
+  text-decoration: none;
+  transition: color 160ms ease;
+}
+
+.home-footer-social:hover {
+  color: var(--home-leaf);
+}
+
+.home-footer-logo {
+  width: 48px;
+  height: 48px;
+  display: block;
+  object-fit: contain;
 }
 
 .plans-heading h2::after {

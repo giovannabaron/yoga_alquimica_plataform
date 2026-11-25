@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
+import logo from "../assets/logo3-removebg-preview.png";
 import "./SiteHeader.css";
 
 export default function SiteHeader() {
@@ -89,8 +90,7 @@ export default function SiteHeader() {
     <header className="site-header">
       <div className="site-header-inner">
         <Link className="site-brand" to="/" aria-label="Yoga Alquímica, início">
-          <span className="site-brand-mark" aria-hidden="true">Y</span>
-          <span>Yoga Alquímica</span>
+          <img src={logo} alt="Yoga Alquímica" className="site-logo" />
         </Link>
         <nav className="site-nav" aria-label="Navegação principal">
           <Link className="site-nav-link" to="/#plans-title">Planos</Link>
