@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import SiteHeader from "../components/SiteHeader";
@@ -9,6 +9,36 @@ export default function RedefinirSenha() {
   const [senha, setSenha] = useState("");
   const [mensagem, setMensagem] = useState("");
   const [carregando, setCarregando] = useState(false);
+  const [linkValido, setLinkValido] = useState(false);
+
+  useEffect(() => {
+    let ativo = true;
+
+    async function verificarLink() {
+      const { data } = await supabase.auth.getSession();
+      if (!ativo) return;
+
+      if (data.session) {
+        setLinkValido(true);
+      } else {
+        setMensagem("Este link não está válido ou expirou. Solicite novamente a redefinição da senha.");
+      }
+    }
+
+    verificarLink();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (ativo && event === "PASSWORD_RECOVERY" && session) {
+        setLinkValido(true);
+        setMensagem("");
+      }
+    });
+
+    return () => {
+      ativo = false;
+      subscription.unsubscribe();
+    };
+  }, []);
 
   async function salvar(e) {
     e.preventDefault();
@@ -32,7 +62,7 @@ export default function RedefinirSenha() {
       <SiteHeader />
       <main className="auth-main">
         <section className="auth-panel">
-          <p className="portal-eyebrow">YOGA ALQUÍMICA</p>
+          <p className="portal-eyebrow">YÔGA ALQUÍMICA</p>
           <h1 className="portal-heading">Criar nova senha</h1>
 
           <form className="auth-form" onSubmit={salvar}>
@@ -45,10 +75,11 @@ export default function RedefinirSenha() {
                 minLength={6}
                 value={senha}
                 onChange={(e) => setSenha(e.target.value)}
+                disabled={!linkValido}
               />
             </div>
 
-            <button className="portal-button" type="submit" disabled={carregando}>
+            <button className="portal-button" type="submit" disabled={carregando || !linkValido}>
               {carregando ? "Salvando..." : "Salvar nova senha"}
             </button>
 
