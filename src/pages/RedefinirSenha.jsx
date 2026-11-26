@@ -50,8 +50,9 @@ export default function RedefinirSenha() {
     if (error) {
       setMensagem("Não foi possível salvar. O link pode ter expirado, tente pedir um novo.");
     } else {
-      setMensagem("Senha alterada com sucesso! Redirecionando...");
-      setTimeout(() => navigate("/aulas"), 2000);
+      await supabase.auth.signOut();
+      setMensagem("Senha alterada com sucesso! Redirecionando para o login...");
+      setTimeout(() => navigate("/entrar", { replace: true }), 1500);
     }
 
     setCarregando(false);
