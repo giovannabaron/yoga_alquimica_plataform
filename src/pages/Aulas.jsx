@@ -65,7 +65,16 @@ export default function Aulas() {
   );
   const aulasDisponiveis = assinaturaAtiva
     ? aulasFiltradas
-    : [];
+    : NIVEIS
+      .filter((nivel) => nivel.valor !== "todos")
+      .flatMap((nivel) => {
+        const limiteNivel = nivel.valor;
+        return aulasFiltradas
+          .filter((aula) => aula.nivel === limiteNivel)
+          .filter((aula) => aula.gratuita)
+          .sort((a, b) => new Date(b.liberada_em) - new Date(a.liberada_em))
+          .slice(0, 3);
+      });
 
   const diasRestantes = validaAte && assinaturaAtiva
     ? Math.max(
@@ -191,19 +200,59 @@ export default function Aulas() {
           </div>
         </>
       ) : (
-        <section className="portal-subscription-hero" aria-label="Assinatura necessária">
-          <span className="portal-subscription-mark" aria-hidden="true">30</span>
-          <p className="portal-eyebrow">SUA PRÁTICA COMEÇA AQUI</p>
-          <h2>Desbloqueie todas as aulas</h2>
-          <p>
-            Práticas semanais, diferentes níveis e novos conteúdos para você cuidar
-            do corpo e da mente no seu ritmo.
-          </p>
-          <div className="portal-subscription-actions">
-            <Link className="portal-status-link" to="/assinar/mensal">Assinar por R$ 36,90/mês</Link>
-            <Link className="portal-status-link portal-status-link-secondary" to="/assinar/anual">Ver plano anual</Link>
-          </div>
-        </section>
+        <>
+          {aulasDisponiveis.length > 0 && (
+            <section className="portal-free-lessons" aria-label="Aulas gratuitas">
+              <h2>Experimente algumas aulas gratuitas</h2>
+              <p>3 aulas gratuitas de cada nível, sem assinatura.</p>
+              <div className="lesson-list">
+                {aulasDisponiveis.map((aula) => {
+                  const ytId = idDoYoutube(aula.video_url);
+                  const abertaAgora = aulaAberta === aula.id;
+
+                  return (
+                    <article key={aula.id} className="lesson-card">
+                      <div className="lesson-meta">
+                        {new Date(aula.liberada_em).toLocaleDateString("pt-BR")}
+                        {aula.duracao_min ? ` · ${aula.duracao_min} min` : ""}
+                        {` · ${aula.nivel}`}
+                        {" · gratuita"}
+                      </div>
+                      <h2>{aula.titulo}</h2>
+                      <p>{aula.descricao}</p>
+
+                      {abertaAgora && ytId ? (
+                        <iframe
+                          title={aula.titulo}
+                          src={`https://www.youtube-nocookie.com/embed/${ytId}`}
+                          className="lesson-video"
+                          allow="fullscreen"
+                          allowFullScreen
+                        />
+                      ) : (
+                        <button className="portal-button" onClick={() => setAulaAberta(aula.id)}>Assistir gratuitamente</button>
+                      )}
+                    </article>
+                  );
+                })}
+              </div>
+            </section>
+          )}
+
+          <section className="portal-subscription-hero" aria-label="Assinatura necessária">
+            <span className="portal-subscription-mark" aria-hidden="true">30</span>
+            <p className="portal-eyebrow">SUA PRÁTICA COMEÇA AQUI</p>
+            <h2>Desbloqueie todas as aulas</h2>
+            <p>
+              Práticas semanais, diferentes níveis e novos conteúdos para você cuidar
+              do corpo e da mente no seu ritmo.
+            </p>
+            <div className="portal-subscription-actions">
+              <Link className="portal-status-link" to="/assinar/mensal">Assinar por R$ 36,90/mês</Link>
+              <Link className="portal-status-link portal-status-link-secondary" to="/assinar/anual">Ver plano anual</Link>
+            </div>
+          </section>
+        </>
       )}
       </main>
     </div>

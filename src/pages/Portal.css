@@ -432,6 +432,22 @@
   color: var(--coral);
 }
 
+.portal-free-lessons {
+  margin: 0 0 1.5rem;
+}
+
+.portal-free-lessons h2 {
+  margin: 0 0 0.35rem;
+  color: var(--ink);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+}
+
+.portal-free-lessons > p {
+  margin: 0 0 1rem;
+  color: var(--muted);
+}
+
 @media (max-width: 760px) {
   .portal-main {
     width: min(100% - 2rem, 1080px);
