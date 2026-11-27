@@ -15,6 +15,7 @@ export default function Aulas() {
   const navigate = useNavigate();
   const [carregando, setCarregando] = useState(true);
   const [assinaturaAtiva, setAssinaturaAtiva] = useState(false);
+  const [ehAdmin, setEhAdmin] = useState(false);
   const [validaAte, setValidaAte] = useState(null);
   const [aulas, setAulas] = useState([]);
   const [aulaAberta, setAulaAberta] = useState(null); // qual aula está com vídeo aberto
@@ -30,7 +31,7 @@ export default function Aulas() {
         return;
       }
 
-      const [assinaturaResp, aulasResp] = await Promise.all([
+      const [assinaturaResp, aulasResp, perfilResp] = await Promise.all([
         supabase
           .from("assinaturas")
           .select("valida_ate")
@@ -40,12 +41,21 @@ export default function Aulas() {
           .from("aulas")
           .select("*")
           .order("liberada_em", { ascending: false }),
+        supabase
+          .from("profiles")
+          .select("is_admin")
+          .eq("id", session.user.id)
+          .maybeSingle(),
       ]);
 
       const ativa =
-        assinaturaResp.data?.valida_ate &&
-        new Date(assinaturaResp.data.valida_ate) > new Date();
+        (perfilResp.data?.is_admin === true)
+        || (
+          assinaturaResp.data?.valida_ate
+          && new Date(assinaturaResp.data.valida_ate) > new Date()
+        );
 
+      setEhAdmin(perfilResp.data?.is_admin === true);
       setAssinaturaAtiva(ativa);
       setValidaAte(assinaturaResp.data?.valida_ate ?? null);
       setAulas(aulasResp.data ?? []);
@@ -104,7 +114,17 @@ export default function Aulas() {
         </header>
 
       <div className="portal-status">
-        {assinaturaAtiva
+        {ehAdmin
+          ? (
+            <>
+              <div className="portal-status-text">
+                <strong>Acesso administrativo</strong>
+                <span>Todas as aulas estão disponíveis para visualização.</span>
+              </div>
+              <Link className="portal-status-link" to="/admin">Ir ao painel administrativo</Link>
+            </>
+          )
+          : assinaturaAtiva
           ? (
             <>
               <div className="portal-status-text">
